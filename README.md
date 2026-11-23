@@ -1,26 +1,61 @@
-# StyleSeat MCP server
+# StyleSeat API integration and MCP server: connect StyleSeat to ChatGPT, Claude and any AI agent
 
-Connect StyleSeat to ChatGPT, Claude and any AI agent through Cotlet.dev. Work in your own professional account with 18 hosted tools for appointments, refunds, reviews and client campaigns. Write actions ask for approval by default.
+StyleSeat API integration and MCP server, unofficial, by Cotlet. Your AI works in your own signed-in StyleSeat account: appointments, clients, payouts, fees, reviews and marketing, on the same screens your login opens. No developer and no StyleSeat API key needed. Cotlet is independent and is not affiliated with StyleSeat.
 
-## What you can ask
+**Does StyleSeat have an API or an MCP server?** StyleSeat has no public API for professionals and no Zapier app (checked 23 Nov 2026). Its official MCP server is for clients only: it finds pros and open times and looks up appointments, and it cannot book or cancel. StyleSeat's client export is a CSV of the client list, and its import takes CSV or XLSX files of up to 5,000 clients. StyleSeat has no MCP server or ChatGPT or Claude app for the pro's own account.
 
-> Read my calendar for today.
+## What beauty pros ask their AI to do in StyleSeat
 
-> Show clients who are overdue for their next visit.
+| Job | Ask your AI | Make it repeat |
+|---|---|---|
+| Clients due for a rebook | "List clients who have not booked in 8 weeks, with their last service, and draft a text to each. Send nothing yet." | Weekly |
+| Who paid the new-client fee | "List this month's clients charged the new-client fee and mark the ones who were already my clients." | Monthly |
+| Payouts on hold | "Show which payouts are on hold or pending and since when." | Daily |
+| Income and tips for your accountant | "Build my monthly income, tips and fees report from StyleSeat in a spreadsheet for my accountant." | Monthly |
+| 1099-K numbers | "Total this year's payouts, fees and refunds so my accountant can match them to my 1099-K." | Yearly |
+| Support message about a held payout | "Write the message to StyleSeat support about my held payout, with the dates and amounts from my account." | When a payout is held |
+| No-shows and late cancels | "List this month's no-shows and late cancellations with the fee that applied." | Monthly |
+| Appointments in a spreadsheet | "Put each day's appointments with client, service and price in my Google Sheet." | Your own endpoint, called from Google Sheets |
+| Import from another app | "Import my clients from this GlossGenius export into StyleSeat. Show me before you save." | Once |
+| Leaving StyleSeat | "Export my clients with notes, my appointment history and my payouts before I move to another app." | Once |
 
-> Draft a text campaign for clients who are due back and show it before sending.
+Your AI asks you before it sends, books or changes anything. Payments stay in your hands: Cotlet refuses payments.
+
+## Your own StyleSeat API, built with Cotlet
+
+StyleSeat gives pros no API and no Zapier app. With Cotlet you build your own: your AI does the job once in your Cloud Browser, you save it as an endpoint, and you call it from Google Sheets, QuickBooks, Mailchimp, Zapier, Make, n8n, your own code.
+
+Examples you can build in a few minutes (none of them exists until you build it):
+
+| Endpoint you build | What it returns or does |
+|---|---|
+| `appointments-for-day` | appointments for a date with client, service and price |
+| `lapsed-clients` | clients with no booking for the weeks you name, with their last service |
+| `payouts` | payouts with status, amount and date, including holds |
+| `fees-for-period` | new-client fees, booking fees and refunds for a period, per client |
+| `income-for-period` | income, tips and fees for a period |
+| `add-client` | adds a client with phone, email and a note (writes only after you allow it) |
+
+Call it with your Cotlet API key, JSON in and JSON out:
+
+```bash
+curl -X POST https://cotlet.dev/api/v1/custom/appointments-for-day \
+  -H "Authorization: Bearer $COTLET_API_KEY" -H "Content-Type: application/json" -d '{}'
+```
+
+Limits: one call runs up to 90 seconds, writes wait for your consent, payments are blocked. Start here: https://cotlet.dev/app/custom-api/new?app=styleseat
 
 ## Connect in 2 minutes
 
-Get your API key at https://cotlet.dev/app and export it as `COTLET_API_KEY`.
-
-### ChatGPT
-
-Settings → Apps & Connectors → Create, with connector URL `https://cotlet.dev/mcp/v1/connect`, then sign in with Cotlet.dev. No API key needed.
+Sign up at https://cotlet.dev, sign in to StyleSeat once in your Cloud Browser, then add Cotlet to your AI.
 
 ### Claude
 
-Settings → Connectors → Add custom connector, with URL `https://cotlet.dev/mcp/v1/connect`, then sign in with Cotlet.dev.
+Settings → Connectors → Add custom connector, paste `https://cotlet.dev/mcp/v1` and sign in with Cotlet.dev.
+
+### ChatGPT
+
+Open Plugins in ChatGPT, choose Create as a plugin, paste `https://cotlet.dev/mcp/v1` and sign in with Cotlet.dev. No API key needed.
 
 ### Claude Code
 
@@ -78,51 +113,42 @@ python3 styleseat_agent.py tools     # list Cotlet.dev tools
 python3 styleseat_agent.py serve     # start the stdio MCP server (same as no argument)
 ```
 
-## Questions from StyleSeat users
+## Questions from StyleSeat pros
+**Does StyleSeat have an API or a Zapier app for pros?**
 
-**Which StyleSeat account should I connect?**
+No. StyleSeat has no public API for professionals and no Zapier app (checked 23 Nov 2026). With Cotlet you build your own endpoints in your signed-in StyleSeat account and call them from Google Sheets, Zapier, Make or n8n.
 
-Connect your own professional account at www.styleseat.com/m/login in the Cotlet Cloud Browser.
+**Is StyleSeat's ChatGPT and Claude connector for pros?**
 
-**Which actions ask for approval?**
+No. StyleSeat's official MCP server is for clients: it finds pros and open times and cannot book or cancel. Cotlet lets your own ChatGPT or Claude work in your pro account.
 
-All 13 write tools ask for approval by default. The five read tools run immediately.
+**Can AI tell me which StyleSeat clients were charged the new-client fee?**
 
-**Is Cotlet affiliated with StyleSeat?**
+Yes. Your AI lists the month's clients charged the new-client fee and marks the ones who were already your clients, so you know which charges to question.
 
-No. Cotlet.dev is independent and not affiliated with StyleSeat.
+**Can AI tell me which StyleSeat clients are overdue for a rebook?**
 
-## Learn more
+Yes. It lists clients with no booking for the weeks you choose and drafts a text for each. Nothing goes out until you say yes.
 
-- [StyleSeat integration and hosted tools](https://cotlet.dev/integrations/styleseat-api-mcp-server)
+**How do I get my StyleSeat income ready for my accountant?**
 
----
+Your AI builds the month's income, tips and fees in a spreadsheet, and totals the year's payouts, fees and refunds for your 1099-K.
 
-More: https://cotlet.dev/integrations/styleseat-api-mcp-server?utm_source=github&utm_medium=readme&utm_campaign=styleseat
+**How do I export my StyleSeat clients and history before I leave?**
 
-Request access: https://cotlet.dev/signup?app=styleseat&utm_source=github&utm_medium=readme&utm_campaign=styleseat
+StyleSeat's own export is the client list. Your AI also reads notes, appointment history and payouts from the screens your login opens and saves them with it.
 
-## Workflows on the hosted integration
+## Find it on
 
-The live integration page documents these 18 operations:
+- [StyleSeat MCP server on Cotlet.dev](https://cotlet.dev/integrations/styleseat-api-mcp-server?utm_source=github&utm_medium=readme&utm_campaign=styleseat&utm_content=find)
+- [StyleSeat API with Cotlet](https://cotlet.dev/integrations/api/styleseat?utm_source=github&utm_medium=readme&utm_campaign=styleseat&utm_content=find)
+- [Does StyleSeat have an API or MCP server?](https://cotlet.dev/api-mcp-status/styleseat?utm_source=github&utm_medium=readme&utm_campaign=styleseat&utm_content=find)
+- [PyPI package styleseat-mcp](https://pypi.org/project/styleseat-mcp/)
 
-- `view_calendar`
-- `set_availability`
-- `manage_appointments`
-- `checkout_appointment`
-- `refund_appointment`
-- `respond_to_chargeback`
-- `view_payouts`
-- `set_deposits`
-- `configure_smart_pricing`
-- `manage_service_packages`
-- `edit_business_info`
-- `manage_reviews`
-- `get_booking_links`
-- `list_clients_due_back`
-- `send_campaign`
-- `import_clients`
-- `delete_clients`
-- `view_client_photos`
+## More beauty apps on Cotlet
 
-The local stdio adapter exposes seven browser helpers listed above. These helpers forward to Cotlet.dev; the workflow operations are documented on the hosted integration page.
+- [GlossGenius MCP](https://github.com/cotlet-connect/glossgenius-mcp)
+- [Squire MCP](https://github.com/cotlet-connect/squire-mcp)
+- [Booksy MCP](https://github.com/cotlet-connect/booksy-mcp)
+- [Fresha MCP](https://github.com/cotlet-connect/fresha-mcp)
+- [Mangomint MCP](https://github.com/cotlet-connect/mangomint-mcp)
