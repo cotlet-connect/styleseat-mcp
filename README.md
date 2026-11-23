@@ -143,7 +143,6 @@ StyleSeat's own export is the client list. Your AI also reads notes, appointment
 - [StyleSeat MCP server on Cotlet.dev](https://cotlet.dev/integrations/styleseat-api-mcp-server?utm_source=github&utm_medium=readme&utm_campaign=styleseat&utm_content=find)
 - [StyleSeat API with Cotlet](https://cotlet.dev/integrations/api/styleseat?utm_source=github&utm_medium=readme&utm_campaign=styleseat&utm_content=find)
 - [Does StyleSeat have an API or MCP server?](https://cotlet.dev/api-mcp-status/styleseat?utm_source=github&utm_medium=readme&utm_campaign=styleseat&utm_content=find)
-- [PyPI package styleseat-mcp](https://pypi.org/project/styleseat-mcp/)
 
 ## More beauty apps on Cotlet
 
